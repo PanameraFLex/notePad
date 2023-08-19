@@ -81,10 +81,10 @@ server.post("/update", async (request, response) => {
         const newnoteTitle = request.body.noteTitle.trim();
         const newnoteContent = request.body.noteContent.trim();
         
-        const ObjectId = require("mongodb").ObjectId; // Make sure to import ObjectId
+        const ObjectId = require("mongodb").ObjectId; //To import ObjectId
         const { modifiedCount } = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).updateOne(
-            { "_id": new ObjectId(note_id) }, // Add a closing parenthesis here
-            { $set: { noteTitle: newnoteTitle, noteContent: newnoteContent } } // Assuming you want to update these fields
+            { "_id": new ObjectId(note_id) }, 
+            { $set: { noteTitle: newnoteTitle, noteContent: newnoteContent } } 
         );
 
         if (modifiedCount > 0) {
