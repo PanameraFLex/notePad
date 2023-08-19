@@ -101,6 +101,36 @@ server.post("/update", async (request, response) => {
     }
 });
 
+server.post("/view", async(request, response)=>{
+	const note_id = request.body.note_id.trim();
+	if(note_id){
+		//proceed to retrieve notes from db using note_id as key
+		const ObjectId = require("mongodb").ObjectId;
+		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).findOne({note_id:("mongodb").ObjectId})
+		if (feedback){
+			return response.send({
+				message: "Note found",
+				data: feedback
+				// data : [(`Note Title: ${feedback.noteTitle}`),
+				// 		(`Note Content: ${feedback.noteContent}`)]
+			})
+			
+		}
+		else{
+			return response.send({
+				message: "ID not found", 
+				code: null
+			})
+		}
+	}else{
+		return response.send({
+			message: "Check your request", 
+			code: null
+		})
+	}
+
+})
+
 server.post("/delete", (request, response)=>{
 
 })
