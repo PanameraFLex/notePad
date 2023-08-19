@@ -157,7 +157,34 @@ server.get("/notes",async(request, response)=>{
 	}
 })
 
-server.post("/delete", (request, response)=>{
+server.post("/delete", async(request, response)=>{
+	let note_id = request.body.note_id.trim()
+	if (note_id.length > 0){
+		// proceed to search for note with note_id as key
+		const ObjectId = require("mongodb").ObjectId
+		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).deleteOne({"_id": new ObjectId(note_id)})
+		if (feedback && feedback.deletedCount > 0){
+			return response.send({
+				message: "Note deleted", 
+				code: "success", 
+				feedback
+			})
+			
+		}else{
+			return response.send({
+				message: "Note was not found",
+				code: "error",
+				date: null 
+			})
+		}
+
+	}else{
+		return response.send({
+			message: "ID is missing from request", 
+			data: null ,
+			code: "error"
+		})
+	}
 
 })
 
