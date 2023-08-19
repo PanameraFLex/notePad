@@ -131,6 +131,32 @@ server.post("/view", async(request, response)=>{
 
 })
 
+server.get("/notes",async(request, response)=>{
+	if(request.body.view_notes=="true"){
+		// if view_note == "true", view notes
+		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).find().toArray();// find() returns all data in collection. toArray() converts data to be accessible Array
+		if (feedback){
+			const notes = feedback.length
+			return response.send({
+				message: "Notes found",
+				notes, 
+				feedback
+			})
+		}else{
+			return response.send({
+				message: "Error in finding data",
+				data: null 
+			})
+		}
+
+	}else{
+		return response.send({
+			message: "invalid request", 
+			data: null
+		})
+	}
+})
+
 server.post("/delete", (request, response)=>{
 
 })
