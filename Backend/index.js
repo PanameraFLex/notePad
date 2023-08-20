@@ -106,7 +106,7 @@ server.post("/view", async(request, response)=>{
 	if(note_id){
 		//proceed to retrieve notes from db using note_id as key
 		const ObjectId = require("mongodb").ObjectId;
-		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).findOne({note_id:("mongodb").ObjectId})
+		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).findOne({"_id": new ObjectId(note_id)})
 		if (feedback){
 			return response.send({
 				message: "Note found",
