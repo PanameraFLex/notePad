@@ -38,38 +38,6 @@ server.post("/create", async(request, response)=>{
 
 })
 
-// server.post("/update", async (request, response)=>{
-// 	if(!request.body.note_id){
-// 		// no note_id in request
-// 		return response.send({
-// 			message: "No note ID was passed", 
-// 			data: null 
-// 		})
-// 	}else{
-// 		//proceed to work with ID
-// 		const note_id = request.body.note_id.trim()
-// 		const newnoteTitle = request.body.noteTitle.trim()
-// 		const newnoteContent = request.body.noteContent.trim()
-// 		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).updateOne({"_id": new ObjectId(note_id))
-// 		if(feedback){
-// 			return response.send({
-// 				message: "You have successfully updated your note", 
-// 				code: "success", 
-// 				data : {feedback}
-// 			})
-// 		}else{
-// 			return response.send({
-// 				message: "Wrong ID", 
-// 				code: null,
-// 				data: {feedback}
-// 			})
-// 		}
-
-// 	}
-
-// })
-
-
 server.post("/update", async (request, response) => {
     if (!request.body.note_id) {
         return response.send({
@@ -132,8 +100,8 @@ server.post("/view", async(request, response)=>{
 })
 
 server.get("/notes",async(request, response)=>{
-	if(request.body.view_notes=="true"){
-		// if view_note == "true", view notes
+	if(request.body){
+		// if view_note == "true", view notes// If body of request exists, retrieve data from dB
 		const feedback = await mongoclient.db(process.env.DB_NAME).collection(process.env.COLLECTION_NAME).find().toArray();// find() returns all data in collection. toArray() converts data to be accessible Array
 		if (feedback){
 			const notes = feedback.length
